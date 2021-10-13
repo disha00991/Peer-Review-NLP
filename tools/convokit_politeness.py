@@ -31,8 +31,8 @@ def get_convokit_politeness_labels(rev_reb_pair, use_rebuttal=False):
       feature dict as its value.
     """
 
-    #   with open(input_file, 'r') as f:
-    #     obj = json.load(f)
+    #     with open(input_file, 'r') as f:
+    #         obj = json.load(f)
 
     obj = rev_reb_pair
     review_id = obj["metadata"]["review_id"]
@@ -40,16 +40,19 @@ def get_convokit_politeness_labels(rev_reb_pair, use_rebuttal=False):
       relevant_sentences = obj["rebuttal_sentences"]
     else:
       relevant_sentences = obj["review_sentences"]
+#     print([Utterance(text=sentence["text"],
+#       speaker=PLACEHOLDER_SPEAKERS[0]) for sentence in relevant_sentences])
 
+#     print(len([Utterance(text=sentence["text"],
+#       speaker=PLACEHOLDER_SPEAKERS[0]) for sentence in relevant_sentences]))
     corpus = Corpus(
       utterances=[Utterance(text=sentence["text"],
       speaker=PLACEHOLDER_SPEAKERS[0]) for sentence in relevant_sentences])
     corpus = TEXT_PARSER.transform(corpus)
     corpus = POLITENESS_STRATEGIES.transform(corpus, markers=True)
-#     return {review_id: corpus.get_utterances_dataframe()[
-#     "meta.politeness_strategies"][0]}
-    return corpus.get_utterances_dataframe()
-#     return "disha"
+    return corpus.get_utterances_dataframe()["meta.politeness_strategies"][0]
+    #     return corpus.get_utterances_dataframe()
+    #     return "disha"
 
 
 def main():
